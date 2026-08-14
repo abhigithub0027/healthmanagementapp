@@ -263,12 +263,7 @@ class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
             ),
 
             const SizedBox(height: 12),
-            PrimaryButton(
-              text: 'Book Appointment',
 
-              icon: Icons.calendar_month_rounded,
-              onPressed: _navigateToConfirmation,
-            ),
 
             const SizedBox(height: 20),
 
@@ -456,9 +451,18 @@ class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
             ),
 
             const SizedBox(height: 24),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 32,
+              child: PrimaryButton(
+                text: 'Book Appointment',
+                icon: Icons.calendar_month_rounded,
+                onPressed: _navigateToConfirmation,
+              ),
+            ),
           ],
         ),
       ),
+
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }

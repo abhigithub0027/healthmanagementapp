@@ -25,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _inNetworkOnly = false;
   bool _nearestOnly = false;
+  bool _openOnly = false;
+  bool _filterOnly = false;
   int _selectedBottomTab = 2; // Default to Search tab
 
   @override
@@ -71,33 +73,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _applyFilters() {
     final query = _searchController.text.trim().toLowerCase();
-    setState(() {
-      _filteredDoctors = _allDoctors.where((doc) {
-        if (_inNetworkOnly && !doc.inNetwork) {
+
+    List<Doctor> results = _allDoctors.where((doc) {
+      // In-Network filter
+      if (_inNetworkOnly && !doc.inNetwork) {
+        return false;
+      }
+
+      // Search filter
+      if (query.isNotEmpty) {
+        final matchesName = doc.name.toLowerCase().contains(query);
+        final matchesSpecialty = doc.specialty.toLowerCase().contains(query);
+        final matchesHospital = doc.hospital.toLowerCase().contains(query);
+
+        if (!matchesName && !matchesSpecialty && !matchesHospital) {
           return false;
         }
-        if (query.isNotEmpty) {
-          final matchesName = doc.name.toLowerCase().contains(query);
-          final matchesSpecialty = doc.specialty.toLowerCase().contains(query);
-          final matchesHospital = doc.hospital.toLowerCase().contains(query);
-          if (!matchesName && !matchesSpecialty && !matchesHospital) {
-            return false;
-          }
-        }
-        return true;
-      }).toList();
-
-      if (_nearestOnly) {
-        _filteredDoctors.sort((a, b) {
-          double distA =
-              double.tryParse(a.distance.replaceAll(RegExp(r'[^0-9.]'), '')) ??
-              99.0;
-          double distB =
-              double.tryParse(b.distance.replaceAll(RegExp(r'[^0-9.]'), '')) ??
-              99.0;
-          return distA.compareTo(distB);
-        });
       }
+
+      return true;
+    }).toList();
+
+    // Sort nearest doctors first
+    if (_nearestOnly) {
+      results.sort((a, b) {
+        final distA =
+            double.tryParse(a.distance.replaceAll(RegExp(r'[^0-9.]'), '')) ??
+            99.0;
+
+        final distB =
+            double.tryParse(b.distance.replaceAll(RegExp(r'[^0-9.]'), '')) ??
+            99.0;
+
+        return distA.compareTo(distB);
+      });
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _filteredDoctors = results;
     });
   }
 
@@ -140,55 +155,96 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 8),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(54.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                _buildFilterChip(
-                  label: 'In-Network',
-                  icon: Icons.verified_user_outlined,
-                  isSelected: _inNetworkOnly,
-                  onTap: () {
-                    setState(() {
-                      _inNetworkOnly = !_inNetworkOnly;
+          preferredSize: const Size.fromHeight(64),
+          child: SizedBox(
+            height: 64,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              child: Row(
+                children: [
+                  _buildFilterChip(
+                    label: 'In-Network',
+                    icon: Icons.verified_user_outlined,
+                    isSelected: _inNetworkOnly,
+                    onTap: () {
+                      setState(() {
+                        _inNetworkOnly = !_inNetworkOnly;
+
+                        // Turn OFF other filters
+                        _nearestOnly = false;
+                        _openOnly = false;
+                        _filterOnly = false;
+                      });
+
                       _applyFilters();
-                    });
-                  },
-                ),
-                const SizedBox(width: 10),
-                _buildFilterChip(
-                  label: 'Nearest to Me',
-                  imagePath: 'assets/images/Icon.png',
-                  isSelected: _nearestOnly,
-                  onTap: () {
-                    setState(() {
-                      _nearestOnly = !_nearestOnly;
+                    },
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  _buildFilterChip(
+                    label: 'Nearest to Me',
+                    imagePath: 'assets/images/Icon.png',
+                    isSelected: _nearestOnly,
+                    onTap: () {
+                      setState(() {
+                        _nearestOnly = !_nearestOnly;
+
+                        // Turn OFF other filters
+                        _inNetworkOnly = false;
+                        _openOnly = false;
+                        _filterOnly = false;
+                      });
+
                       _applyFilters();
-                    });
-                  },
-                ),
-                const SizedBox(width: 10),
-                _buildFilterChip(
-                  label: 'Open this friday',
-                  icon: Icons.filter_list_rounded,
-                  isSelected: _nearestOnly,
-                  onTap: () {
-                    setState(() {
-                      _nearestOnly = !_nearestOnly;
+                    },
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  _buildFilterChip(
+                    label: 'Open this Friday',
+                    icon: Icons.filter_list_rounded,
+                    isSelected: _openOnly,
+                    onTap: () {
+                      setState(() {
+                        _openOnly = !_openOnly;
+
+                        // Turn OFF other filters
+                        _inNetworkOnly = false;
+                        _nearestOnly = false;
+                        _filterOnly = false;
+                      });
+
                       _applyFilters();
-                    });
-                  },
-                ),
-                const SizedBox(width: 10),
-                _buildFilterChip(
-                  label: '',
-                  icon: Icons.filter_list,
-                  isSelected: _nearestOnly,
-                  onTap: () {},
-                ),
-              ],
+                    },
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  _buildFilterChip(
+                    label: 'Filters',
+                    icon: Icons.filter_list_rounded,
+                    isSelected: _filterOnly,
+                    onTap: () {
+                      // setState(() {
+                      //   _filterOnly = !_filterOnly;
+                      //
+                      //   // Turn OFF other filters
+                      //   _inNetworkOnly = false;
+                      //   _nearestOnly = false;
+                      //   _openOnly = false;
+                      // });
+                      //
+                      // _applyFilters();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -204,141 +260,142 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           : Column(
-        children: [
-          // Results Header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
-            child: Row(
               children: [
-                Text(
-                  '${_filteredDoctors.length} Results for\nSpecialists',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                    height: 1.2,
+                // Results Header
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${_filteredDoctors.length} Results for\nSpecialists',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                          height: 1.2,
+                        ),
+                      ),
+
+                      const Spacer(),
+
+                      const Text(
+                        'SORTED BY\nRELEVANCE',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textLight,
+                          letterSpacing: 0.6,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
-                const Spacer(),
+                // Doctor List
+                Expanded(
+                  child: _filteredDoctors.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.search_off_rounded,
+                                size: 48,
+                                color: AppColors.textLight,
+                              ),
 
-                const Text(
-                  'SORTED BY\nRELEVANCE',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textLight,
-                    letterSpacing: 0.6,
-                    height: 1.2,
-                  ),
+                              const SizedBox(height: 12),
+
+                              const Text(
+                                'No doctors found matching filters',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              TextButton(
+                                onPressed: () {
+                                  _searchController.clear();
+
+                                  setState(() {
+                                    _inNetworkOnly = false;
+                                    _nearestOnly = false;
+                                    _applyFilters();
+                                  });
+                                },
+                                child: const Text('Reset Filters'),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 4,
+                          ),
+                          itemCount: _filteredDoctors.length + 3,
+                          itemBuilder: (context, index) {
+                            // -------------------------------
+                            // Normal doctors before Quick Care
+                            // -------------------------------
+                            if (index < _filteredDoctors.length) {
+                              final doctor = _filteredDoctors[index];
+
+                              return DoctorCard(
+                                doctor: doctor,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.aboutDoctor,
+                                    arguments: doctor,
+                                  );
+                                },
+                              );
+                            }
+
+                            // -------------------------------
+                            // Quick Care Notice
+                            // -------------------------------
+                            if (index == _filteredDoctors.length) {
+                              return _buildQuickCareNotice();
+                            }
+
+                            // -------------------------------
+                            // 2 doctors AFTER Quick Care
+                            // -------------------------------
+                            final afterQuickCareIndex =
+                                index - _filteredDoctors.length - 1;
+
+                            // Safety check
+                            if (afterQuickCareIndex < 2 &&
+                                afterQuickCareIndex < _filteredDoctors.length) {
+                              final doctor =
+                                  _filteredDoctors[afterQuickCareIndex];
+
+                              return DoctorCard(
+                                doctor: doctor,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.aboutDoctor,
+                                    arguments: doctor,
+                                  );
+                                },
+                              );
+                            }
+
+                            return const SizedBox.shrink();
+                          },
+                        ),
                 ),
               ],
             ),
-          ),
-
-          // Doctor List
-          Expanded(
-            child: _filteredDoctors.isEmpty
-                ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.search_off_rounded,
-                    size: 48,
-                    color: AppColors.textLight,
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  const Text(
-                    'No doctors found matching filters',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  TextButton(
-                    onPressed: () {
-                      _searchController.clear();
-
-                      setState(() {
-                        _inNetworkOnly = false;
-                        _nearestOnly = false;
-                        _applyFilters();
-                      });
-                    },
-                    child: const Text('Reset Filters'),
-                  ),
-                ],
-              ),
-            )
-                : ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              itemCount: _filteredDoctors.length + 3,
-              itemBuilder: (context, index) {
-                // -------------------------------
-                // Normal doctors before Quick Care
-                // -------------------------------
-                if (index < _filteredDoctors.length) {
-                  final doctor = _filteredDoctors[index];
-
-                  return DoctorCard(
-                    doctor: doctor,
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.aboutDoctor,
-                        arguments: doctor,
-                      );
-                    },
-                  );
-                }
-
-                // -------------------------------
-                // Quick Care Notice
-                // -------------------------------
-                if (index == _filteredDoctors.length) {
-                  return _buildQuickCareNotice();
-                }
-
-                // -------------------------------
-                // 2 doctors AFTER Quick Care
-                // -------------------------------
-                final afterQuickCareIndex =
-                    index - _filteredDoctors.length - 1;
-
-                // Safety check
-                if (afterQuickCareIndex < 2 &&
-                    afterQuickCareIndex < _filteredDoctors.length) {
-                  final doctor = _filteredDoctors[afterQuickCareIndex];
-
-                  return DoctorCard(
-                    doctor: doctor,
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.aboutDoctor,
-                        arguments: doctor,
-                      );
-                    },
-                  );
-                }
-
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
-        ],
-      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -539,7 +596,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            child: const Text('Get Directions',style: TextStyle(fontSize: 14),),
+            child: const Text('Get Directions', style: TextStyle(fontSize: 14)),
           ),
         ],
       ),

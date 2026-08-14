@@ -1,0 +1,12 @@
+[
+  {
+    "username": "test@example.com",
+    "password": "123456",
+    "name": "Alex Johnson"
+  },
+  {
+    "username": "admin@healthbridge.com",
+    "password": "admin123",
+    "name": "Sarah Miller"
+  }
+]

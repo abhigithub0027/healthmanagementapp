@@ -1,0 +1,178 @@
+[
+  {
+    "id": "doc_1",
+    "name": "Dr. Anjali Rao, MD",
+    "specialty": "Cardiology & Internal Medicine",
+    "experience": "15+ Yrs Exp.",
+    "rating": 4.9,
+    "reviewCount": 142,
+    "image": "assets/images/doctor_1.png",
+    "location": "1221 Health Plaza, Suite 400, New York, NY 10021",
+    "distance": "1.2 km",
+    "hospital": "HealthBridge Medical Center",
+    "about": "Board-certified internist specializing in holistic preventative care and chronic disease management. Committed to providing unhurried, patient-centered diagnostics and compassionate care.",
+    "education": "MD - Johns Hopkins School of Medicine | Residency - Mayo Clinic",
+    "consultationFee": 240.00,
+    "insuranceCoverage": 240.00,
+    "inNetwork": true,
+    "nextSlot": "Available this Friday at 10:30 AM",
+    "phone": "+1 (555) 123-4567",
+    "insuranceProviders": [
+      "BLUE CROSS",
+      "AETNA GOLD",
+      "UNITEDHEALTH",
+      "CIGNA PPO"
+    ],
+    "availableSlots": {
+      "MON OCT 23": ["09:00 AM", "10:30 AM", "02:00 PM"],
+      "TUE OCT 24": ["08:30 AM", "11:00 AM", "03:30 PM"],
+      "WED OCT 25": ["09:30 AM", "12:00 PM", "04:00 PM"]
+    }
+  },
+  {
+    "id": "doc_2",
+    "name": "Dr. Marcus Thorne, DO",
+    "specialty": "Physical Therapy & Rehabilitation",
+    "experience": "12+ Yrs Exp.",
+    "rating": 4.8,
+    "reviewCount": 98,
+    "image": "assets/images/doctor_2.png",
+    "location": "850 Grand Ave, Suite 210, New York, NY 10018",
+    "distance": "2.4 km",
+    "hospital": "Metropolitan Health Institute",
+    "about": "Specialist in non-invasive orthopedic care, sports injury recovery, and post-surgical physical rehabilitation with a focus on functional mobility.",
+    "education": "DO - NYIT College of Osteopathic Medicine | Fellowship - HSS",
+    "consultationFee": 190.00,
+    "insuranceCoverage": 190.00,
+    "inNetwork": true,
+    "nextSlot": "Available this Monday at 09:00 AM",
+    "phone": "+1 (555) 890-1234",
+    "insuranceProviders": [
+      "BLUE CROSS",
+      "METLIFE CARE",
+      "UNITEDHEALTH"
+    ],
+    "availableSlots": {
+      "MON OCT 23": ["09:00 AM", "11:30 AM", "02:30 PM"],
+      "TUE OCT 24": ["10:00 AM", "01:30 PM", "04:30 PM"],
+      "WED OCT 25": ["08:30 AM", "11:00 AM", "03:00 PM"]
+    }
+  },
+  {
+    "id": "doc_3",
+    "name": "Dr. Elena Petrova, MD",
+    "specialty": "Dermatology Specialist",
+    "experience": "10+ Yrs Exp.",
+    "rating": 5.0,
+    "reviewCount": 215,
+    "image": "assets/images/doctor_3.png",
+    "location": "450 Lexington Ave, Floor 12, New York, NY 10017",
+    "distance": "0.8 km",
+    "hospital": "Skin & Wellness Clinic",
+    "about": "Board-certified dermatologist focusing on clinical dermatology, pediatric skin care, advanced cosmetic treatments, and early skin cancer screening.",
+    "education": "MD - Columbia University Vagelos College of Physicians and Surgeons",
+    "consultationFee": 260.00,
+    "insuranceCoverage": 180.00,
+    "inNetwork": false,
+    "nextSlot": "Available this Friday at 02:30 PM",
+    "phone": "+1 (555) 345-6789",
+    "insuranceProviders": [
+      "AETNA GOLD",
+      "CIGNA PPO",
+      "HUMANA"
+    ],
+    "availableSlots": {
+      "MON OCT 23": ["10:30 AM", "01:00 PM", "03:30 PM"],
+      "TUE OCT 24": ["09:00 AM", "11:30 AM", "02:30 PM"],
+      "WED OCT 25": ["08:00 AM", "10:00 AM", "01:30 PM"]
+    }
+  },
+  {
+    "id": "doc_4",
+    "name": "Dr. James Wilson, MD",
+    "specialty": "Neurology Specialist",
+    "experience": "18+ Yrs Exp.",
+    "rating": 4.7,
+    "reviewCount": 167,
+    "image": "assets/images/doctor_4.png",
+    "location": "300 Park Ave, Suite 600, New York, NY 10022",
+    "distance": "4.1 km",
+    "hospital": "NeuroScience Care Center",
+    "about": "Renowned neurologist specializing in headache management, neuromuscular disorders, stroke prevention, and cognitive health evaluation.",
+    "education": "MD - Stanford University School of Medicine | Residency - UCSF",
+    "consultationFee": 280.00,
+    "insuranceCoverage": 280.00,
+    "inNetwork": true,
+    "nextSlot": "Available this Friday at 04:00 PM",
+    "phone": "+1 (555) 678-9012",
+    "insuranceProviders": [
+      "BLUE CROSS",
+      "UNITEDHEALTH",
+      "CIGNA PPO",
+      "KAISER"
+    ],
+    "availableSlots": {
+      "MON OCT 23": ["09:30 AM", "11:00 AM", "03:00 PM"],
+      "TUE OCT 24": ["10:30 AM", "02:00 PM", "04:00 PM"],
+      "WED OCT 25": ["09:00 AM", "01:00 PM", "04:30 PM"]
+    }
+  },
+  {
+    "id": "doc_5",
+    "name": "Dr. Sarah Jenkins, MD",
+    "specialty": "Pediatrics & Adolescent Care",
+    "experience": "8+ Yrs Exp.",
+    "rating": 4.9,
+    "reviewCount": 189,
+    "image": "assets/images/doctor_1.png",
+    "location": "520 5th Ave, Suite 300, New York, NY 10036",
+    "distance": "1.8 km",
+    "hospital": "Children's Health Alliance",
+    "about": "Compassionate pediatrician dedicated to newborn care, routine developmental screenings, immunizations, and adolescent wellness.",
+    "education": "MD - Yale School of Medicine | Residency - Children's Hospital of Philadelphia",
+    "consultationFee": 210.00,
+    "insuranceCoverage": 210.00,
+    "inNetwork": true,
+    "nextSlot": "Available tomorrow at 11:00 AM",
+    "phone": "+1 (555) 432-1098",
+    "insuranceProviders": [
+      "BLUE CROSS",
+      "AETNA GOLD",
+      "UNITEDHEALTH"
+    ],
+    "availableSlots": {
+      "MON OCT 23": ["08:30 AM", "10:00 AM", "01:30 PM"],
+      "TUE OCT 24": ["09:30 AM", "11:00 AM", "02:30 PM"],
+      "WED OCT 25": ["10:00 AM", "01:00 PM", "03:30 PM"]
+    }
+  },
+  {
+    "id": "doc_6",
+    "name": "Dr. Robert Chen, MD",
+    "specialty": "Orthopedic Surgery",
+    "experience": "16+ Yrs Exp.",
+    "rating": 4.9,
+    "reviewCount": 304,
+    "image": "assets/images/doctor_2.png",
+    "location": "600 Madison Ave, Floor 8, New York, NY 10022",
+    "distance": "3.0 km",
+    "hospital": "Orthopedic Joint Institute",
+    "about": "Expert orthopedic surgeon specializing in minimally invasive knee and shoulder joint replacements, arthroscopy, and sports injury reconstruction.",
+    "education": "MD - Harvard Medical School | Fellowship - Hospital for Special Surgery",
+    "consultationFee": 320.00,
+    "insuranceCoverage": 320.00,
+    "inNetwork": true,
+    "nextSlot": "Available next Monday at 09:30 AM",
+    "phone": "+1 (555) 765-4321",
+    "insuranceProviders": [
+      "BLUE CROSS",
+      "CIGNA PPO",
+      "AETNA GOLD"
+    ],
+    "availableSlots": {
+      "MON OCT 23": ["09:30 AM", "11:30 AM", "03:00 PM"],
+      "TUE OCT 24": ["08:30 AM", "01:00 PM", "04:00 PM"],
+      "WED OCT 25": ["10:30 AM", "02:00 PM", "04:30 PM"]
+    }
+  }
+]
